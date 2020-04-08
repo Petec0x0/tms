@@ -1,4 +1,4 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>The create page</title>
@@ -137,7 +137,6 @@
 					  </form>
 				 </div>
 				 <div class="footer">
-					  <p id="loginBtn">Already have an account, <a href="login.php">Login</a></p>
 				</div>
 			    </div>
     			</div>	

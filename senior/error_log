@@ -1,0 +1,1 @@
+[08-Apr-2020 16:52:41 UTC] PHP Warning:  mysqli_query() expects parameter 2 to be string, object given in /home2/capita51/public_html/tms/senior/create.php on line 89

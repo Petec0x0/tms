@@ -1,1 +1,1 @@
-A Traning Management System Project.
+A Training Management System Project.

@@ -136,8 +136,7 @@
 							</div>
 					  </form>
 				 </div>
-				 <div class="footer">
-				</div>
+				 <div class="footer"></div>
 			    </div>
     			</div>	
 			</div>	

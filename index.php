@@ -8,11 +8,13 @@
     </head>
     <body>
         <?php
-            ob_start();
+            session_start();
+            // ob_start();
             include_once "includes/dbconnection.php";
             if(isset($_SESSION["s_firstname"])){
                  header("Location: dashboard.php");
              }
+             echo $_SESSION["s_firstname"];
              
              function test_input($data) {
                 $data = trim($data);
@@ -49,6 +51,8 @@
         				    	$_SESSION["s_lastname"] = $row["lastname"];
         				    	$_SESSION["s_email"] = $row["email"];
         				    	header("Location: dashboard.php");
+        				    
+        				    
         					}
         				}
         		    }
@@ -92,3 +96,4 @@
         <script src="https://use.fontawesome.com/7e8e60d03d.js"></script>
     </body>
 </html>
+<?php ob_end_flush(); ?>

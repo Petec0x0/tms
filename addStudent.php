@@ -46,7 +46,7 @@
                         <div class="col-sm-6" id="basic_computer_training_div">
 							<br>
 							<select name="basic_computer_training" class="form-control" style="border-radius:12px;">
-								<option value="default"disabled selected>Select Package</option>
+								<option value="null"disabled selected>Select Package</option>
 								<?php 
 									$sql = "SELECT * FROM `basic_computer_training` WHERE 1";
 									$result = mysqli_query($conn, $sql);
@@ -63,8 +63,8 @@
                         </div>
                         <div class="col-sm-6" id="advanced_computer_training_div">
 							<br>
-							<select name="advanced_computer_training" class="form-control" style="border-radius:12px;">
-								<option value="default"disabled selected>Select Package</option>
+							<select name="advanced_computer_training" class="form-control" style="border-radius:12px;" onchange="showSubPackage(this.value)">
+								<option value="null"disabled selected>Select Package</option>
 								<?php 
 									$sql = "SELECT * FROM `advanced_computer_training` WHERE 1";
 									$result = mysqli_query($conn, $sql);
@@ -73,6 +73,32 @@
 									}
 								?>
 							</select>
+							<br>
+							<div id="operating_systems_div">
+							    <?php 
+									$sql = "SELECT * FROM `operating_systems` WHERE 1";
+									$result = mysqli_query($conn, $sql);
+									while($package = mysqli_fetch_assoc($result)){
+										echo '<div class="form-check">
+										        <input class="form-check-input" type="radio" name="operating_systems" value="'.$package['course_id'].'">
+                                                <label class="form-check-label" for="operating_systems">'.$package['os'].'</label>
+                                                </div>';													
+									}
+								?>
+                            </div>
+                            <br>
+                            <div id="database_programs_div">
+							    <?php 
+									$sql = "SELECT * FROM `database_programs` WHERE 1";
+									$result = mysqli_query($conn, $sql);
+									while($package = mysqli_fetch_assoc($result)){
+										echo '<div class="form-check">
+										        <input class="form-check-input" type="radio" name="database_programs" value="'.$package['course_id'].'">
+                                                <label class="form-check-label" for="database_programs">'.$package['_databases'].'</label>
+                                                </div>';													
+									}
+								?>
+                            </div>
 						</div>
                         <div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12 text-center">
@@ -106,6 +132,34 @@
       }else{
          document.getElementById("advanced_computer_training_div").style.display = "none";
       }
+    }
+    
+    function showSubPackage(val) {
+        if (val == 'null'){
+              
+          }
+          else if(val == '1'){
+              
+          }else if(val == '2'){
+              
+          }else if(val == '3'){
+              
+          }else if(val == '4'){
+              
+          }else if(val == '5'){
+              
+          }else if(val == '6'){
+              
+          }else if(val == '7'){
+              
+          }else if(val == '8'){
+              
+          }else if(val == '9'){
+              
+          }else if(val == '10'){
+              
+          }
+      
     }
 </script>
 

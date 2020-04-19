@@ -6,7 +6,9 @@
     }
 
 </style>
+
 <div class="container">
+    <br><br><br><br><br><br>
 	<div class="row">
 		<div class="col-sm-3 .visible-xs, hidden-xs"></div>
 		<div class=" col-sm-6 jumbotron">
@@ -47,12 +49,12 @@
 							<br>
 							
 							<?php 
-								$sql = "SELECT * FROM `basic_computer_training` WHERE 1";
+								$sql = "SELECT * FROM `courses` WHERE `category_id` = 1"; // course in the basic computer training category
 								$result = mysqli_query($conn, $sql);
 								while($package = mysqli_fetch_assoc($result)){
 									echo '<div class="form-check">
                                               <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" id="basic_computer_training">
-                                              <label class="form-check-label" for="basic_computer_training">'.$package['packages'].'</label>
+                                              <label class="form-check-label" for="basic_computer_training">'.$package['course_name'].'</label>
                                             </div>';													
 								}
 							?>
@@ -67,10 +69,10 @@
 							<select name="advanced_computer_training" class="form-control" style="border-radius:12px;" onchange="showSubPackage(this.value)">
 								<option value="null"disabled selected>Select Package</option>
 								<?php 
-									$sql = "SELECT * FROM `advanced_computer_training` WHERE 1";
+									$sql = "SELECT * FROM `categories` WHERE `category_id` > 1"; // courses that are not part of the basic training category
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
-										echo '<option value="'.$package['id'].'">'.$package['packages'].'</option>';													
+										echo '<option value="'.$package['category_id'].'">'.$package['category_name'].'</option>';													
 									}
 								?>
 							</select>
@@ -78,12 +80,12 @@
 							<div id="operating_systems_div">
 							    <br>
 							    <?php 
-									$sql = "SELECT * FROM `operating_systems` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 2"; // all courses on category 2(operating systems)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="operating_systems" value="'.$package['course_id'].'">
-                                                <label class="form-check-label" for="operating_systems">'.$package['os'].'</label>
+                                                <label class="form-check-label" for="operating_systems">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -92,12 +94,12 @@
                             <div id="database_programs_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `database_programs` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 3"; // all courses on category 3(Databases)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="database_programs" value="'.$package['course_id'].'">
-                                                <label class="form-check-label" for="database_programs">'.$package['_databases'].'</label>
+                                                <label class="form-check-label" for="database_programs">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -106,12 +108,12 @@
                             <div id="computer_networking_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `computer_networking` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 4"; // all courses on category 4(Networking)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="computer_networking" value="'.$package['course_id'].'" checked>
-                                                <label class="form-check-label" for="computer_networking">'.$package['package_name'].'</label>
+                                                <label class="form-check-label" for="computer_networking">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -120,12 +122,12 @@
                             <div id="computer_hardware_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `computer_hardware` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 5"; // all courses on category 5(Computer Hardware)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="computer_hardware" value="'.$package['course_id'].'" checked>
-                                                <label class="form-check-label" for="computer_hardware">'.$package['package_name'].'</label>
+                                                <label class="form-check-label" for="computer_hardware">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -134,12 +136,12 @@
                             <div id="web_design_technologies_div">
                                 <br>
 								<?php 
-    								$sql = "SELECT * FROM `web_design_technologies` WHERE 1";
+    								$sql = "SELECT * FROM `courses` WHERE `category_id` = 7"; // all courses on cataegory 7(Web Design Technologies)
     								$result = mysqli_query($conn, $sql);
     								while($package = mysqli_fetch_assoc($result)){
     									echo '<div class="form-check">
                                                   <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" id="web_design_technologies" checked disabled>
-                                                  <label class="form-check-label" for="web_design_technologies">'.$package['web_technologies'].'</label>
+                                                  <label class="form-check-label" for="web_design_technologies">'.$package['course_name'].'</label>
                                                 </div>';													
     								}
     							?>
@@ -148,12 +150,26 @@
                             <div id="graphics_design_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `graphics_design` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 6"; // all on courses on category 6(Graphic Design)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="graphics_design" value="'.$package['course_id'].'" checked>
-                                                <label class="form-check-label" for="graphics_design">'.$package['package_name'].'</label>
+                                                <label class="form-check-label" for="graphics_design">'.$package['course_name'].'</label>
+                                                </div>';													
+									}
+								?>
+                            </div>
+                            
+                            <div id="computer_security_div">
+                                <br>
+							    <?php 
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 8"; // all on courses on category 6(Graphic Design)
+									$result = mysqli_query($conn, $sql);
+									while($package = mysqli_fetch_assoc($result)){
+										echo '<div class="form-check">
+										        <input class="form-check-input" type="radio" name="computer_security" value="'.$package['course_id'].'" checked>
+                                                <label class="form-check-label" for="computer_security">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -162,12 +178,12 @@
                             <div id="programming_languages_div">
                                 <br>
 								<?php 
-    								$sql = "SELECT * FROM `programming_languages` WHERE 1";
+    								$sql = "SELECT * FROM `courses` WHERE `category_id` = 9"; // all courses on category 9(Programming Languages)
     								$result = mysqli_query($conn, $sql);
     								while($package = mysqli_fetch_assoc($result)){
     									echo '<div class="form-check">
                                                   <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" id="programming_languages">
-                                                  <label class="form-check-label" for="programming_languages">'.$package['languages'].'</label>
+                                                  <label class="form-check-label" for="programming_languages">'.$package['course_name'].'</label>
                                                 </div>';													
     								}
     							?>
@@ -176,12 +192,12 @@
                             <div id="mobile_development_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `mobile_development` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 10"; // all courses on category 10(Mobile Development)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="mobile_development" value="'.$package['course_id'].'" checked>
-                                                <label class="form-check-label" for="mobile_development">'.$package['package_name'].'</label>
+                                                <label class="form-check-label" for="mobile_development">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -190,12 +206,12 @@
                             <div id="advanced_concepts_div">
                                 <br>
 							    <?php 
-									$sql = "SELECT * FROM `advanced_concepts` WHERE 1";
+									$sql = "SELECT * FROM `courses` WHERE `category_id` = 11"; // all courses on category 11(Advanced Concepts)
 									$result = mysqli_query($conn, $sql);
 									while($package = mysqli_fetch_assoc($result)){
 										echo '<div class="form-check">
 										        <input class="form-check-input" type="radio" name="advanced_concepts" value="'.$package['course_id'].'" checked>
-                                                <label class="form-check-label" for="advanced_concepts">'.$package['topics'].'</label>
+                                                <label class="form-check-label" for="advanced_concepts">'.$package['course_name'].'</label>
                                                 </div>';													
 									}
 								?>
@@ -228,7 +244,7 @@
     document.getElementById("dashboard_link").className = document.getElementById("dashboard_link").className.replace( /(?:^|\s)nav-link active(?!\S)/g , 'nav-link' ); // make Dashboard link inactive
     document.getElementById("addstudent_link").className = document.getElementById("addstudent_link").className.replace( /(?:^|\s)nav-link(?!\S)/g , 'nav-link active' ); // make addStident link active
 
-    // make some the form elements disappear
+    // make some of the form elements disappear
     document.getElementById("basic_computer_training_div").style.display = "none";
     document.getElementById("advanced_computer_training_div").style.display = "none";
     function hideSomeDiv(){
@@ -240,10 +256,10 @@
         document.getElementById("graphics_design_div").style.display = "none";
         document.getElementById("programming_languages_div").style.display = "none";
         document.getElementById("mobile_development_div").style.display = "none";
-        //document.getElementById("").style.display = "none";
+        document.getElementById("computer_security_div").style.display = "none";
         document.getElementById("advanced_concepts_div").style.display = "none";
     }    
-    hideSomeDiv();
+    hideSomeDiv(); // hide some div elements
     /*
       * showbasic() function shows the content 'basic_computer_training_div' element
     */
@@ -267,34 +283,34 @@
         if (val == 'null'){
               
           }
-          else if(val == '1'){
+          else if(val == '2'){
               hideSomeDiv();
               document.getElementById("operating_systems_div").style.display = "block";
-          }else if(val == '2'){
-              hideSomeDiv();
-              document.getElementById("database_programs_div").style.display = "block";
           }else if(val == '3'){
               hideSomeDiv();
-              document.getElementById("computer_networking_div").style.display = "block";
+              document.getElementById("database_programs_div").style.display = "block";
           }else if(val == '4'){
               hideSomeDiv();
-              document.getElementById("computer_hardware_div").style.display = "block";
+              document.getElementById("computer_networking_div").style.display = "block";
           }else if(val == '5'){
+              hideSomeDiv();
+              document.getElementById("computer_hardware_div").style.display = "block";
+          }else if(val == '7'){
               hideSomeDiv();
               document.getElementById("web_design_technologies_div").style.display = "block";
           }else if(val == '6'){
               hideSomeDiv();
               document.getElementById("graphics_design_div").style.display = "block";
-          }else if(val == '7'){
-              hideSomeDiv();
-              document.getElementById("programming_languages_div").style.display = "block";
-          }else if(val == '8'){
-              hideSomeDiv();
-              document.getElementById("mobile_development_div").style.display = "block";
           }else if(val == '9'){
               hideSomeDiv();
-              //document.getElementById("").style.display = "block";
+              document.getElementById("programming_languages_div").style.display = "block";
           }else if(val == '10'){
+              hideSomeDiv();
+              document.getElementById("mobile_development_div").style.display = "block";
+          }else if(val == '8'){
+              hideSomeDiv();
+              document.getElementById("computer_security_div").style.display = "block";
+          }else if(val == '11'){
               hideSomeDiv();
               document.getElementById("advanced_concepts_div").style.display = "block";
           }

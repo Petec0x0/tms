@@ -46,13 +46,13 @@
             <ul class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" id="dashboard_link" href="dashboard.php">
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
+                  <span data-feather="users"></span>
+                  Students <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="addstudent_link" href="addStudent.php">
-                  <span data-feather="users"></span>
+                  <span data-feather="layers"></span>
                   Add Student
                 </a>
               </li>

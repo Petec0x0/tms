@@ -94,28 +94,56 @@
 		  
 		  if($_POST["advanced_computer_training"]){
 		      if($_POST["advanced_computer_training_select"] == 2){ //operating systems category
-		          
+		          array_push($selected_courses,$_POST["operating_systems"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 3){ // database management category
-		          
+		          array_push($selected_courses,$_POST["database_programs"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 4){ // computer networking category
-		          
+		          array_push($selected_courses,$_POST["computer_networking"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 5){ // computer hardware category
-		          
+		          array_push($selected_courses,$_POST["computer_hardware"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 6){ // Graphic design category
-		          
+		          array_push($selected_courses,$_POST["graphics_design"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 7){ // web design category
-		          
+		          $web_design_technologies_count = $_POST["web_design_technologies_count"];
+		          while($web_design_technologies_count > 0){
+    		          $var = 'web_design_technologies_'.$web_design_technologies_count;
+    		          if($_POST[$var]){
+    		              array_push($selected_courses,$_POST[$var]); // add the selected course the $selected_courses array
+    		          }
+    		          $web_design_technologies_count--;
+    		      }
 		      }elseif($_POST["advanced_computer_training_select"] == 8){ // computer security category
-		          
+		          array_push($selected_courses,$_POST["computer_security"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 9){ // computer programming category
-		          
+		          $programming_languages_count = $_POST["programming_languages_count"];
+		          while($programming_languages_count > 0){
+    		          $var = 'programming_languages_'.$programming_languages_count;
+    		          if($_POST[$var]){
+    		              array_push($selected_courses,$_POST[$var]); // add the selected course the $selected_courses array
+    		          }
+    		          $programming_languages_count--;
+    		      }
 		      }elseif($_POST["advanced_computer_training_select"] == 10){ // mobile development category
-		          
+		          array_push($selected_courses,$_POST["mobile_development"]); // add the selected course the $selected_courses array
 		      }elseif($_POST["advanced_computer_training_select"] == 11){ // advanced concept category
-		          
+		          array_push($selected_courses,$_POST["advanced_concepts"]); // add the selected course the $selected_courses array
 		      }
 		  }
+		  print_r($selected_courses);
+		  // set default timezone
+          date_default_timezone_set('London/United Kingdom'); // BST
+          $current_date = date('d/m/Y');
+          $round_off_date = $_POST["round_off_date"];
+          $attendant = $_SESSION["s_firstname"];
 		  
+		  if($firstname_validated && $lastname_validated && $email_validated && $address_validated && $phone_no_validated && $gender_validated){
+		      $sql = "INSERT INTO users (firstname, lastname, email, address, phone_no, gender, registered_date, round_off_date, attendant) VALUES ('$firstname', '$lastname', '$email', '$address', '$phone_no', '$gender', '$current_date', '$round_off_date', '$attendant')";
+		      if(mysqli_query($conn, $sql)){
+                echo 'true';
+		      }else{
+            	echo "Error";
+		      }
+		  }
     }else{}	  
 ?>     
 <style>
@@ -162,9 +190,9 @@
 						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12">
                             Gender:<span class="text-danger">  *<?php echo $genderErr;?></span><br>
-                            <input type="radio" name="gender" value="female" required>Female<br>
-                            <input type="radio" name="gender" value="male" required>Male<br>
-                            <input type="radio" name="gender" value="others" required>Others
+                            <input type="radio" name="gender" value="2" required>Female<br>
+                            <input type="radio" name="gender" value="1" required>Male<br>
+                            <input type="radio" name="gender" value="0" required>Others
                         </div>
 						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12">
@@ -270,14 +298,15 @@
 								<?php 
     								$sql = "SELECT * FROM `courses` WHERE `category_id` = 7"; // all courses on cataegory 7(Web Design Technologies)
     								$result = mysqli_query($conn, $sql);
-    								$count = 1;
+    								$count = 0;
     								while($package = mysqli_fetch_assoc($result)){
+    								    $count++;
     									echo '<div class="form-check">
-                                                  <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" name="web_design_technologies_'.$count.'" checked disabled>
+                                                  <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" name="web_design_technologies_'.$count.'" checked>
                                                   <label class="form-check-label" for="web_design_technologies">'.$package['course_name'].'</label>
                                                 </div>';
-                                        $count++;        
     								}
+    								echo '<input type="hidden" name="web_design_technologies_count" value="'.$count.'">'; // check the number of available web design technologies
     							?>
                             </div>
                             
@@ -314,14 +343,15 @@
 								<?php 
     								$sql = "SELECT * FROM `courses` WHERE `category_id` = 9"; // all courses on category 9(Programming Languages)
     								$result = mysqli_query($conn, $sql);
-    								$count = 1;
+    								$count = 0;
     								while($package = mysqli_fetch_assoc($result)){
+    								    $count++;
     									echo '<div class="form-check">
                                                   <input class="form-check-input" type="checkbox" value="'.$package['course_id'].'" name="programming_languages_'.$count.'">
                                                   <label class="form-check-label" for="programming_languages">'.$package['course_name'].'</label>
                                                 </div>';	
-                                        $count++;        
     								}
+    								echo '<input type="hidden" name="programming_languages_count" value="'.$count.'">'; // check the number of available programming languages
     							?>
                             </div>
 
@@ -354,9 +384,14 @@
                             </div>
 						</div>
                         <div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
+                        <div class="col-sm-12"><p>Training Duration</p></div>
                         <div class="col-sm-6">
-						  <label for="training_duration">Training Duration</label><span class="text-danger"> * </span>
-						  <input type="date" class="form-control" id="training_duration" name="training_duration" style="border-radius:12px;" required>
+						  <label for="start_date">Start date</label><span class="text-danger"> * </span>
+						  <input type="date" class="form-control" id="start_date" name="start_date" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-6">
+						  <label for="round_off_date">Round off date</label><span class="text-danger"> * </span>
+						  <input type="date" class="form-control" id="end_date" name="round_off_date" style="border-radius:12px;" required>
 						</div>
 						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12 text-center">

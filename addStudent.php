@@ -71,12 +71,14 @@
 		  if (empty($_POST["address"])) { // check if address is input is empty
 			  $addressErr = "Address is required";
 		  } else {
+		      $address = $_POST["address"];
 		      $address_validated = true; // validate address input
 		  }
 		  
 		  if (empty($_POST["gender"])) { // check if gender input is empty
 		      $genderErr = "Gender is required";
 		  } else {
+		      $gender = $_POST["gender"];
 		      $gender_validated = true; // validate gender input
 		  }
 		  
@@ -129,20 +131,41 @@
 		          array_push($selected_courses,$_POST["advanced_concepts"]); // add the selected course the $selected_courses array
 		      }
 		  }
-		  print_r($selected_courses);
 		  // set default timezone
           date_default_timezone_set('London/United Kingdom'); // BST
-          $current_date = date('d/m/Y');
+          $current_date = date('Y-m-d');
           $round_off_date = $_POST["round_off_date"];
           $attendant = $_SESSION["s_firstname"];
 		  
 		  if($firstname_validated && $lastname_validated && $email_validated && $address_validated && $phone_no_validated && $gender_validated){
-		      $sql = "INSERT INTO users (firstname, lastname, email, address, phone_no, gender, registered_date, round_off_date, attendant) VALUES ('$firstname', '$lastname', '$email', '$address', '$phone_no', '$gender', '$current_date', '$round_off_date', '$attendant')";
+		      $sql = "INSERT INTO students (firstname, lastname, email, address, phone_no, gender, registered_date, round_off_date, attendant) VALUES ('$firstname', '$lastname', '$email', '$address', '$phone_no', '$gender', '$current_date', '$round_off_date', '$attendant')";
 		      if(mysqli_query($conn, $sql)){
                 echo 'true';
 		      }else{
             	echo "Error";
 		      }
+		      
+		      for($x = 0; $x < count($selected_courses); $x++) {
+		          $sql = "SELECT * FROM `courses` WHERE `course_id` = '$selected_courses[$x]'";
+		          $result = mysqli_query($conn, $sql);
+		          $row = mysqli_fetch_assoc($result);
+		          $category = $row["category_id"];
+		          
+		          /////////////////////////////////////////////////
+		          $sql = "SELECT * FROM `students` WHERE `email` = '$email'";
+		          $result = mysqli_query($conn, $sql);
+		          $row = mysqli_fetch_assoc($result);
+		          $student_id = $row["student_id"];
+		          
+		          ////////////////////////////////////////////////
+		          $sql = "INSERT INTO training (course_id, category_id, student_id) VALUES ('$selected_courses[$x]', '$category', '$student_id')";
+		          if(mysqli_query($conn, $sql)){
+                    echo 'true2';
+    		      }else{
+                	echo "Error2";
+    		      }
+		      }
+		      echo '<script>alert("Student Registered Successfully")</script>';
 		  }
     }else{}	  
 ?>     

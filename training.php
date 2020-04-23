@@ -11,13 +11,10 @@
    <thead>
      <tr>
        <th>#</th>
-       <th>First Name</th>
-       <th>Last Name</th>
-       <th>Email</th>
-       <th>Phone</th>
-       <th>Registered Date</th>
-       <th></th>
-       <th></th>
+       <th>Package/Course</th>
+       <th>Category</th>
+       <th>Student ID</th>
+       <th>Round Off Date</th>
      </tr>
    </thead>
    <tbody>

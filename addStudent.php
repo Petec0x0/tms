@@ -248,8 +248,15 @@
         transform: scale(2);
         -webkit-transform: scale(2);
     }
-
+    body {
+    	background:url('assets/img/list_student_bg.jpg') no-repeat;
+    	background-size: cover;
+    	padding:50px;
+	}
 </style>
+<style>
+    		
+		</style>
 
 <div class="container">
     <br><br><br><br><br><br>
@@ -583,8 +590,7 @@
     function showSubPackage(val) {
         if (val == 'null'){
               
-          }
-          else if(val == '2'){
+          }else if(val == '2'){
               hideSomeDiv();
               document.getElementById("operating_systems_div").style.display = "block";
           }else if(val == '3'){

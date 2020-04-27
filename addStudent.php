@@ -9,9 +9,10 @@
 	}
     
     // Variable definition
-    $firstname = $lastname = $email = $address = $phone_no = $gender = "";
-    $firstnameErr = $lastnameErr = $emailErr = $addressErr = $phone_noErr = $genderErr = "";
-    $firstname_validated = $lastname_validated = $email_validated = $address_validated = $phone_no_validated = $gender_validated = "";
+    
+    $firstname = $lastname = $email = $address = $phone_no = $gender = $c_edu_level = $amount_charged = $amount_paid = $outstanding_dept = $next_of_kin = $next_of_kin_address = $next_of_kin_phone = "";
+    $firstnameErr = $lastnameErr = $emailErr = $addressErr = $phone_noErr = $genderErr = $c_edu_levelErr = $amount_chargedErr = $amount_paidErr = $outstanding_deptErr = $next_of_kinErr = $next_of_kin_addressErr = $next_of_kin_phoneErr = "";
+    $firstname_validated = $lastname_validated = $email_validated = $address_validated = $phone_no_validated = $gender_validated = $c_edu_level_validated = $amount_charged_validated = $amount_paid_validated = $outstanding_dept_validated = $next_of_kin_validated = $next_of_kin_address_validated = $next_of_kin_phone_validated = "";
     $selected_courses = array();
     
     if (isset($_POST["submit"])) {
@@ -82,6 +83,75 @@
 		      $gender_validated = true; // validate gender input
 		  }
 		  
+		  if (empty($_POST["c_edu_level"])) { // check if c_edu_level input is empty
+		      $c_edu_levelErr = "Level of  is required";
+		  } else {
+		      $c_edu_level = $_POST["c_edu_level"];
+		      $c_edu_level_validated = true; // validate c_edu_level input
+		  }
+		  
+		  if (empty($_POST["amount_charged"])) { // check if amount charged input is empty
+			    $amount_chargedErr = "Amount charged is required";
+		  } else {
+		      $amount_charged = test_input($_POST["amount_charged"]); // sanitize input data
+    	      // check if amount contains only numbers
+    			if (!preg_match("/^[0-9]+$/",$amount_charged)) { // check if it contains numbers only
+    			  $amount_chargedErr = "Only numbers are allowed"; 
+    			}
+    			else{$amount_charged_validated = true;} // validate amount input
+		  }
+		  
+		  if (empty($_POST["amount_paid"])) { // check if amount paid input is empty
+			    $amount_paidErr = "Amount paid is required";
+		  } else {
+		      $amount_paid = test_input($_POST["amount_paid"]); // sanitize input data
+    	      // check if amount contains only numbers
+    			if (!preg_match("/^[0-9]+$/",$amount_paid)) { // check if it contains numbers only
+    			  $amount_paidErr = "Only numbers are allowed"; 
+    			}
+    			else{$amount_paid_validated = true;} // validate amount input
+		  }
+		  
+		  if (empty($_POST["outstanding_dept"])) { // check if outstanding dept input is empty
+			    $outstanding_deptErr = "outstanding dept is required";
+		  } else {
+		      $outstanding_dept = test_input($_POST["outstanding_dept"]); // sanitize input data
+    	      // check if outstanding dept contains only numbers
+    			if (!preg_match("/^[0-9]+$/",$outstanding_dept)) { // check if it contains numbers only
+    			  $outstanding_deptErr = "Only numbers are allowed"; 
+    			}
+    			else{$outstanding_dept_validated = true;} // validate outstanding dept input
+		  }
+		  
+		  if (empty($_POST["next_of_kin"])) { // check if next of kin name input is empty
+	        $next_of_kinErr = "Next of kin full name is required";
+		  } else {
+		      $next_of_kin = test_input($_POST["next_of_kin"]); // sanitize the input data
+    		  // check if name only contains letters and whitespace
+    			if (!preg_match("/^[a-zA-Z ]*$/",$next_of_kin)) { // check if name contains letters only
+    			  $next_of_kinErr = "Only letters and white space allowed"; 
+    			}
+    			else{$next_of_kin_validated = true;} // validate next_of_kin
+		  }
+		  
+		  if (empty($_POST["next_of_kin_address"])) { // check if address is input is empty
+			  $next_of_kin_addressErr = "Address is required";
+		  } else {
+		      $next_of_kin_address = $_POST["next_of_kin_address"];
+		      $next_of_kin_address_validated = true; // validate address input
+		  }
+		  
+		  if (empty($_POST["next_of_kin_phone"])) { // check if next_of_kin_phone input is empty
+			    $next_of_kin_phoneErr = "Phone No is required";
+		  } else {
+		      $next_of_kin_phone = test_input($_POST["next_of_kin_phone"]); // sanitize input data
+    	      // check if next_of_kin_phone only contains numbers
+    			if (!preg_match("/^[0-9]+$/",$next_of_kin_phone)) { // check if it contains numbers only
+    			  $next_of_kin_phoneErr = "Only numbers are allowed"; 
+    			}
+    			else{$next_of_kin_phone_validated = true;} // validate phone no input
+		  }
+		  
 		  if($_POST["basic_computer_training"]){
 		      $basic_computer_training_count = $_POST["basic_computer_training_count"];
 		      while($basic_computer_training_count > 0){
@@ -134,11 +204,15 @@
 		  // set default timezone
           date_default_timezone_set('London/United Kingdom'); // BST
           $current_date = date('Y-m-d');
-          $round_off_date = $_POST["round_off_date"];
+          $start_date = $_POST["start_date"]; // start date
+          $round_off_date = $_POST["round_off_date"]; // end date
+          $date_of_birth = $_POST["date_of_birth"]; // date of birth
           $attendant = $_SESSION["s_firstname"];
+
 		  
-		  if($firstname_validated && $lastname_validated && $email_validated && $address_validated && $phone_no_validated && $gender_validated){
-		      $sql = "INSERT INTO students (firstname, lastname, email, address, phone_no, gender, registered_date, round_off_date, attendant) VALUES ('$firstname', '$lastname', '$email', '$address', '$phone_no', '$gender', '$current_date', '$round_off_date', '$attendant')";
+		  if($firstname_validated && $lastname_validated && $email_validated && $address_validated && $phone_no_validated && $gender_validated && $c_edu_level_validated && $amount_charged_validated && $amount_paid_validated && $outstanding_dept_validated && $next_of_kin_validated && $next_of_kin_address && $next_of_kin_phone_validated){
+		      $sql = "INSERT INTO students (firstname, lastname, email, address, phone_no, gender, date_of_birth, registered_date, start_date, round_off_date, c_edu_level, amount_charged, amount_paid, outstanding_dept, next_of_kin, next_of_kin_address, next_of_kin_phone, attendant) 
+		      VALUES ('$firstname', '$lastname', '$email', '$address', '$phone_no', '$gender', '$date_of_birth', '$current_date', '$start_date', '$round_off_date', '$c_edu_level', '$amount_charged', '$amount_paid', '$outstanding_dept', '$next_of_kin', '$next_of_kin_address', '$next_of_kin_phone', '$attendant')";
 		      if(mysqli_query($conn, $sql)){
                 echo 'true';
 		      }else{
@@ -209,6 +283,10 @@
 						<div class="col-sm-12">
 						  <label for="address">Address</label><span class="text-danger"> *<?php echo $addressErr;?></span>
 						  <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-6">
+						  <label for="date_of_birth">Date of Birth</label><span class="text-danger"> *<?php echo $date_of_birthErr;?></span>
+						  <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Enter Date of Birth" style="border-radius:12px;" required>
 						</div>
 						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12">
@@ -407,7 +485,7 @@
                             </div>
 						</div>
                         <div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
-                        <div class="col-sm-12"><p>Training Duration</p></div>
+                        <div class="col-sm-12"><p><b>Training Duration</b></p></div>
                         <div class="col-sm-6">
 						  <label for="start_date">Start date</label><span class="text-danger"> * </span>
 						  <input type="date" class="form-control" id="start_date" name="start_date" style="border-radius:12px;" required>
@@ -415,6 +493,39 @@
 						<div class="col-sm-6">
 						  <label for="round_off_date">Round off date</label><span class="text-danger"> * </span>
 						  <input type="date" class="form-control" id="end_date" name="round_off_date" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
+						<div class="col-sm-12">
+						  <label for="c_edu_level">Current Level of Education</label><span class="text-danger"> *<?php echo $c_edu_levelErr;?></span>
+						  <input type="text" class="form-control" id="c_edu_level" name="c_edu_level" placeholder="Enter Current Level of Education" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
+						<div class="col-sm-12"><p><b><span class="material-icons">money</span></b></p></div>
+						<div class="col-sm-4">
+						  <label for="amount_charged">Amount Charged</label><span class="text-danger"> *<?php echo $amount_chargedErr;?></span>
+						  <input type="number" class="form-control" id="amount_charged" name="amount_charged" placeholder="Enter Amount charged" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-4">
+						  <label for="amount_paid">Total Paid</label><span class="text-danger"> *<?php echo $amount_paidErr;?></span>
+						  <input type="number" class="form-control" id="amount_paid" name="amount_paid" placeholder="Enter Total Paid" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-4">
+						  <label for="outstanding_dept">Total Outstanding</label><span class="text-danger"> *<?php echo $outstanding_deptErr;?></span>
+						  <input type="number" class="form-control" id="outstanding_dept" name="outstanding_dept" placeholder="Enter Total Outstanding" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
+						<div class="col-sm-12"><p><b>Next of Kin Information</b></p></div>
+						<div class="col-sm-12">
+						  <label for="next_of_kin">Full Name</label><span class="text-danger"> *<?php echo $next_of_kinErr;?></span>
+						  <input type="text" class="form-control" id="next_of_kin" name="next_of_kin" placeholder="Enter Full Name" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-12">
+						  <label for="next_of_kin_address">Address</label><span class="text-danger"> *<?php echo $next_of_kin_addressErr;?></span>
+						  <input type="text" class="form-control" id="next_of_kin_address" name="next_of_kin_address" placeholder="Enter Address" style="border-radius:12px;" required>
+						</div>
+						<div class="col-sm-6">
+						  <label for="next_of_kin_phone">Phone no.</label><span class="text-danger"> *<?php echo $next_of_kin_phoneErr;?></span>
+						  <input type="number" class="form-control" id="next_of_kin_phone" name="next_of_kin_phone" placeholder="Enter Phone no." style="border-radius:12px;" required>
 						</div>
 						<div class="col-sm-12"><hr></div> <!--For Spacing and Line Breaks-->
 						<div class="col-sm-12 text-center">

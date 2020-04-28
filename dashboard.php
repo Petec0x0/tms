@@ -1,10 +1,37 @@
 <?php include_once "navbar_header.php";?>     
+
+<style>
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid black;
+      border-bottom: 16px solid black;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+    
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #loader{
+        display: none;
+    }
+</style>
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
      <br><br><br><br><br><br>
   </div>
 
-  <div class="col-sm-12">
+  <div class="row col-sm-12">
       <div class="col-sm-3">
           <span>Filter by Course</span>
           <select name="courses" class="form-control" style="border-radius:12px;" onchange="filter(this.value)">
@@ -16,6 +43,21 @@
 				while($course = mysqli_fetch_assoc($result)){
 				    $count++;
 					echo '<option value="'.$course['course_id'].'">'.$course['course_name'].'</option>';													
+				}
+			?>
+		</select>
+      </div>
+      <div class="col-sm-3">
+          <span>Filter by Sex</span>
+          <select name="sex" class="form-control" style="border-radius:12px;" onchange="genderFilter(this.value)">
+		  	<option value="null"disabled selected>Select gender</option>
+			<?php 
+				$sql = "SELECT * FROM `gender` WHERE 1"; // select all gender
+				$result = mysqli_query($conn, $sql);
+				$count = 0;
+				while($gender = mysqli_fetch_assoc($result)){
+				    $count++;
+					echo '<option value="'.$gender['id'].'">'.$gender['gender'].'</option>';													
 				}
 			?>
 		</select>
@@ -70,13 +112,14 @@
                  echo '<td>'.$student['amount_charged'].'</td>';
                  echo '<td>'.$student['amount_paid'].'</td>';
                  echo '<td>'.$student['outstanding_dept'].'</td>';
-                 echo '<td><a href="#"><i class="material-icons" title="View Details">view_carousel</i></a></td>';
+                 echo '<td><a href="details.php?usr_id='.$student['student_id'].'"><i class="material-icons" title="View Details">view_carousel</i></a></td>';
                  echo '</tr>';
                  $count++; 
              }
          ?>
        </tbody>
      </table>
+     <center><div id="loader" class="loader"></div></center>
   </div>
 </main>
 <script>
@@ -84,6 +127,7 @@
         var xhttpTimer = new XMLHttpRequest();
 		xhttpTimer.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
+			    document.getElementById("loader").style.display = "none";
 				document.getElementById("table_body").innerHTML = this.responseText;
 			}
 		};
@@ -91,9 +135,23 @@
 		xhttpTimer.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttpTimer.send("course_id="+val);
     }
+    
+    function genderDetails(val){
+        var xhttpTimer = new XMLHttpRequest();
+		xhttpTimer.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			    document.getElementById("loader").style.display = "none";
+				document.getElementById("table_body").innerHTML = this.responseText;
+			}
+		};
+		xhttpTimer.open("POST", "asynchronously.php", true);
+		xhttpTimer.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttpTimer.send("gender_id="+val);
+    }
 
     function filter(val){
         document.getElementById("table_body").innerHTML = "";
+        document.getElementById("loader").style.display = "block";
         if (val == 'null'){
             
         }else if(val == '1'){
@@ -145,7 +203,21 @@
         }else if(val == '24'){
             loadDetails(val);
         }else if(val == '25'){
+            loadDetails(val);
+        }
+    }
+    
+    function genderFilter(val){
+        document.getElementById("table_body").innerHTML = "";
+        document.getElementById("loader").style.display = "block";
+        if (val == 'null'){
             
+        }else if(val == '0'){
+            genderDetails(val);
+        }else if(val == '1'){
+            genderDetails(val);
+        }else if(val == '2'){
+            genderDetails(val);
         }
     }
     

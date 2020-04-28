@@ -55,7 +55,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="income.php">
+                <a class="nav-link" id="income_link" href="income.php">
                   <span class="material-icons">attach_money</span>
                   Income
                 </a>

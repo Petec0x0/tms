@@ -44,20 +44,20 @@
             <ul class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" id="dashboard_link" href="dashboard.php">
-                  <span data-feather="users"></span>
-                  Students <span class="sr-only">(current)</span>
+                  <span class="material-icons">people</span>
+                   Students <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="addstudent_link" href="addStudent.php">
-                  <span data-feather="layers"></span>
+                  <span class="material-icons">group_add</span>
                   Add Student
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="training.php">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
+                <a class="nav-link" href="income.php">
+                  <span class="material-icons">attach_money</span>
+                  Income
                 </a>
               </li>
               <li class="nav-item">

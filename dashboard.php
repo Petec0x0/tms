@@ -41,7 +41,7 @@
            <th>View Details</th>
          </tr>
        </thead>
-       <tbody>
+       <tbody id="table_body">
          <?php 
              $sql = "SELECT students.student_id, students.firstname, students.lastname, students.phone_no, students.registered_date, students.start_date, students.round_off_date, students.amount_charged, students.amount_paid, students.outstanding_dept, gender.code as code FROM `students` 
              INNER JOIN gender ON students.gender=gender.id";
@@ -80,57 +80,70 @@
   </div>
 </main>
 <script>
+    function loadDetails(val){
+        var xhttpTimer = new XMLHttpRequest();
+		xhttpTimer.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("table_body").innerHTML = this.responseText;
+			}
+		};
+		xhttpTimer.open("POST", "asynchronously.php", true);
+		xhttpTimer.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttpTimer.send("course_id="+val);
+    }
+
     function filter(val){
+        document.getElementById("table_body").innerHTML = "";
         if (val == 'null'){
             
         }else if(val == '1'){
-            
+            loadDetails(val);
         }else if(val == '2'){
-            
+            loadDetails(val);
         }else if(val == '3'){
-            
+            loadDetails(val);
         }else if(val == '4'){
-            
+            loadDetails(val);
         }else if(val == '5'){
-            
+            loadDetails(val);
         }else if(val == '6'){
-            
+            loadDetails(val);
         }else if(val == '7'){
-            
+            loadDetails(val);
         }else if(val == '8'){
-            
+            loadDetails(val);
         }else if(val == '9'){
-            
+            loadDetails(val);
         }else if(val == '10'){
-            
+            loadDetails(val);
         }else if(val == '11'){
-            
+            loadDetails(val);
         }else if(val == '12'){
-            
+            loadDetails(val);
         }else if(val == '13'){
-            
+            loadDetails(val);
         }else if(val == '14'){
-            
+            loadDetails(val);
         }else if(val == '15'){
-            
+            loadDetails(val);
         }else if(val == '16'){
-            
+            loadDetails(val);
         }else if(val == '17'){
-            
+            loadDetails(val);
         }else if(val == '18'){
-            
+            loadDetails(val);
         }else if(val == '19'){
-            
+            loadDetails(val);
         }else if(val == '20'){
-            
+            loadDetails(val);
         }else if(val == '21'){
-            
+            loadDetails(val);
         }else if(val == '22'){
-            
+            loadDetails(val);
         }else if(val == '23'){
-            
+            loadDetails(val);
         }else if(val == '24'){
-            
+            loadDetails(val);
         }else if(val == '25'){
             
         }

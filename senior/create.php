@@ -9,7 +9,7 @@
     <body>
         <?php
             include_once "../includes/dbconnection.php";
-            $dbh = new PDO('mysql:host=localhost;dbname=capita51_tms', "capita51_tms_user", "@tms_userpassword");
+            $dbh = new PDO('mysql:host=localhost;dbname=trisjtsv_tmsdb', "trisjtsv_petec", "@Petecpassword1");
             
             // define variables and set to empty values
 			$firstnameErr  = $lastnameErr = $emailErr = $passwordErr = "";
@@ -84,13 +84,6 @@
                 $sql->bindParam(':email', $email);
                 $sql->bindParam(':password', $hashed_password);
                 $sql->execute();
-                
-            // 	$sql = "INSERT INTO adminprivileg (firstname, lastname, email, password) VALUES ('$firstname', '$lastname', '$email', '$hashed_password')";
-            // 	if(mysqli_query($conn, $sql)){
-            // 	    echo 'true';
-            // 	}else{
-            // 		echo "Error";
-            // 	}
             }
             
         ?>    

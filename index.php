@@ -16,20 +16,29 @@
     <body>
         <?php
             session_start();
-            // ob_start();
-            include_once "includes/dbconnection.php";
+            
+            // include the database connection class
+            include_once "classes/dbconn.class.php"; 
+            // include the model class
+            include_once "classes/model.class.php"; 
+            // include the view class
+            include_once "classes/view.class.php"; 
+            
+            // check if the session already exists
             if(isset($_SESSION["s_firstname"])){
-                 header("Location: dashboard.php");
-             }
-             echo $_SESSION["s_firstname"];
-             
-             function test_input($data) {
+                // redirect to dashboard if session exist
+                 header("Location: dashboard");
+            }
+            
+            // check input data for special characters
+            function test_input($data) {
                 $data = trim($data);
             	$data = stripslashes($data);
             	$data = htmlspecialchars($data);
             	return $data;
             }
-        
+            
+            
         	$emailErr = $passwordErr = " ";
         	if(isset($_POST["submit"])){
         	    $email = test_input($_POST["email"]);
@@ -38,35 +47,35 @@
         	        $emailErr = "Empty";
         	        $passwordErr = "Empty";
         	    }else{
-        	       $sql = "SELECT * FROM adminprivileg WHERE email = '$email'";
-        	       $result = mysqli_query($conn, $sql);
-        	       $result_check = mysqli_num_rows($result);
-        	       if($result_check < 1){
+        	       // create an object of the view class
+        	       $check = new View(); 
+        	       $row = $check->checkAdmin($email)[0];
+        	       
+        	       // check if admin exist
+        	       if(count($row) < 1){
         	           $emailErr = "Invalid username/password";
         	           $passwordErr = "Invalid username/password";
         	       }else{
-        	           if($row = mysqli_fetch_assoc($result)){
-        	               //de-hashing the password
-        	               $hashed_password_check = password_verify($password, $row["password"]);
-        	               if($hashed_password_check == false){
-        	                   $emailErr = "Invalid username/password";
-        	                   $passwordErr = "Invalid username/password";
-        	               }elseif($hashed_password_check == true){
-        				    	// Log in the user here
-        				    	$_SESSION["s_id"] = $row["id"];
-        				    	$_SESSION["s_firstname"] = $row["firstname"];
-        				    	$_SESSION["s_lastname"] = $row["lastname"];
-        				    	$_SESSION["s_email"] = $row["email"];
-        				    	header("Location: dashboard.php");
-        				    
-        				    
-        					}
-        				}
-        		    }
-        		}
-        	}else{
-        	    
-        	}
+    	               //de-hashing the password and checking if it matches
+    	               $hashed_password_check = password_verify($password, $row["password"]);
+    	               if(!($hashed_password_check)){
+    	                   $emailErr = "Invalid username/password";
+    	                   $passwordErr = "Invalid username/password";
+    	               }elseif($hashed_password_check){
+    				    	// Log in the user here
+    				    	$_SESSION["s_id"] = $row["admin_id"];
+    				    	$_SESSION["s_firstname"] = $row["firstname"];
+    				    	$_SESSION["s_lastname"] = $row["lastname"];
+    				    	$_SESSION["s_email"] = $row["email"];
+    				    	// redirect to dashboard
+    				    	header("Location: dashboard"); 
+        			    }
+        			}
+    		    }
+            }
+            
+            // flush the buffer
+            ob_end_flush();
         
         ?>
         
@@ -103,4 +112,4 @@
         <script src="https://use.fontawesome.com/7e8e60d03d.js"></script>
     </body>
 </html>
-<?php ob_end_flush(); ?>
+<?php  ?>

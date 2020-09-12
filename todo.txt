@@ -1,0 +1,17 @@
+ DB Tables:
+    courses
+        ->
+    candidates
+        -> name
+        -> date of birth
+        -> address
+        -> city
+        -> phone number
+        -> sex
+        -> next of kin
+        -> next of kin address
+        -> next of kin phone no.
+        -> current level of education
+        -> referee
+    training
+        ->

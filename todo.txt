@@ -14,4 +14,10 @@
         -> current level of education
         -> referee
     training
-        ->
+        -> student id
+        -> start date
+        -> end date
+    payments
+        -> amount charged
+        -> amount paid
+        -> total outstanding

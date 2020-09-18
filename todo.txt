@@ -3,6 +3,7 @@
         ->
     candidates
         -> name
+        -> email
         -> date of birth
         -> address
         -> city

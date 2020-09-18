@@ -9,4 +9,13 @@
             $results = $stmt->fetchAll();
             return $results;
         }
+        
+        public function getCourses(){
+            $sql = "SELECT * FROM courses WHERE 1";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+            
+            $results = $stmt->fetchAll();
+            return $results;
+        }
     }

@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>The create page</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    </head>
-    <body>
+<?php 
+    include_once 'includes/header.php';
+?>
+
+<main class="container">
         <?php
-            include_once "../includes/dbconnection.php";
-            $dbh = new PDO('mysql:host=localhost;dbname=trisjtsv_tmsdb', "trisjtsv_petec", "@Petecpassword1");
+            $dbConObj = new Dbconn();
+            $dbh = $dbConObj->shareConn();
             
             // define variables and set to empty values
 			$firstnameErr  = $lastnameErr = $emailErr = $passwordErr = "";
@@ -48,10 +44,12 @@
     					  $emailErr = "Invalid email format"; 
     					}
     					else{
-    						$sql = "SELECT * FROM adminprivileg WHERE email = '$email'";
-    						$result = mysqli_query($conn, $sql);
-    						$result_check = mysqli_num_rows($result);
-    						if($result_check > 0){
+    					    $sql = "SELECT * FROM adminprivileg WHERE email = ?";
+                            $stmt = $dbh->prepare($sql);
+                            $stmt->execute([$email]);
+                            $results = $stmt->fetchAll();
+    		
+    						if(count($results) > 0){
     							$emailErr = "Email Address already Exist";
     						}else{
     							$email_validated = true;
@@ -84,59 +82,61 @@
                 $sql->bindParam(':email', $email);
                 $sql->bindParam(':password', $hashed_password);
                 $sql->execute();
+                
+                echo '<div class="alert alert-success text-center"><strong>Success!</strong> Admin account created sucessfully</div>';
             }
             
         ?>    
-        
-        <div class="container">
-			<div class="row">
-				<div class="col-sm-3 .visible-xs, hidden-xs"></div>
-				<div class=" col-sm-6 jumbotron">
-					<div class="header">
-					  <h4><i class="material-icons">lock_open</i> Sign Up</h4>
-					</div>
-					<div class=" container">
-					  <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-sm-3 .visible-xs, hidden-xs"></div>
+			<div class=" col-sm-6 jumbotron">
+				<div class="header">
+				  <h4>...</h4>
+				</div>
+				<div class=" container-fluid">
+				  <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
 
-						<div class="form-group">
-							<div class="row">
-								<div class="col-sm-6">
-								  <label for="firstname">Firstname</label><span class="text-danger"> *<?php echo $firstnameErr;?></span>
-								  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter Firstname" style="border-radius:12px;" required>
-								</div>  
-								<div class="col-sm-6">
-								  <label for="lastname"></span>Lastname</label><span class="text-danger"> *<?php echo $lastnameErr;?></span>
-								  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Lastname" style="border-radius:12px;" required>
-								</div>
-								<br>
-								<div class="col-sm-12">
-								  <label for="email">Email</label><span class="text-danger"> *<?php echo $emailErr;?></span>
-								  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" style="border-radius:12px;" required>
-								</div>
-								<br>
-								<div class="col-sm-6">
-								  <label for="password">Password</label><span class="text-danger"> *<?php echo $passwordErr;?></span>
-								  <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" style="border-radius:12px;" required>
-								</div>  
-								<div class="col-sm-6">
-								  <label for="confirm_password">Comfirm Password</label>
-								  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Comfirm password" style="border-radius:12px;" required>
-								</div>
-								<br><br><br><br>
-								<div class="col-sm-12 text-center">
-									<button type="submit" name="submit" class="btn btn-primary btn-block" style="border-radius:12px;">Continue</button>
-								</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+							  <label for="firstname">Firstname</label><span class="text-danger"> *<?php echo $firstnameErr;?></span>
+							  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter Firstname" style="border-radius:12px;" required>
+							</div>  
+							<div class="col-sm-6">
+							  <label for="lastname"></span>Lastname</label><span class="text-danger"> *<?php echo $lastnameErr;?></span>
+							  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Lastname" style="border-radius:12px;" required>
 							</div>
-					  </form>
-				 </div>
-				 <div class="footer"></div>
-			    </div>
-    			</div>	
-			</div>	
-		</div>
-        
+							<br>
+							<div class="col-sm-12">
+							  <label for="email">Email</label><span class="text-danger"> *<?php echo $emailErr;?></span>
+							  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" style="border-radius:12px;" required>
+							</div>
+							<br>
+							<div class="col-sm-6">
+							  <label for="password">Password</label><span class="text-danger"> *<?php echo $passwordErr;?></span>
+							  <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" style="border-radius:12px;" required>
+							</div>  
+							<div class="col-sm-6">
+							  <label for="confirm_password">Comfirm Password</label>
+							  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Comfirm password" style="border-radius:12px;" required>
+							</div>
+							<br><br><br><br>
+							<div class="col-sm-12 text-center">
+								<button type="submit" name="submit" class="btn btn-primary btn-block" style="border-radius:12px;">Continue</button>
+							</div>
+						</div>
+				  </form>
+			 </div>
+			 <div class="footer"></div>
+		    </div>
+    		</div>	
+		</div>	
+
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
         <script src="https://use.fontawesome.com/7e8e60d03d.js"></script>
-    </body>
-</html>
+</main>
+<script>
+    document.getElementById("create_nav").className = 'active'; // make Dashboard link inactive
+</script>
+<?php include_once 'includes/footer.php';?>

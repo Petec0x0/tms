@@ -510,3 +510,10 @@ a:focus,a:hover,a{
        width: 100%;
    }
    }
+   
+   
+/*
+* #####################################################
+* for Bigger checkbox
+*/
+  .big-checkbox {width: 30px; height: 30px;}

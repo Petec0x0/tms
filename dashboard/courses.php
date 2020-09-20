@@ -1,7 +1,5 @@
 <?php 
     include_once 'includes/header.php';
-    include_once '../classes/dbconn.class.php';
-    include_once '../classes/model.class.php';
 ?>
 
 <main class="container-fluid">
@@ -43,7 +41,7 @@
         <div class="col-md-4">
             <h4><b>Add New Course</b></h4>
             <div class="form-inline">
-        		<input type="text" name="new_course" class="form-control" id="email" placeholder="Enter New Course Name" style="border-radius:12px;" required>
+        		<input type="text" name="new_course" class="form-control" id="email" placeholder="Enter New Course Name" required>
     
         		<input type="submit" name="add" class="btn btn-primary btn-inline" style="border-radius:12px;" value="ADD+">
     		</div>
@@ -51,5 +49,8 @@
     </div>
     
 </main>
+<script>
+    document.getElementById("courses_nav").className = 'active'; // make Dashboard link inactive
+</script>
 
 <?php include_once 'includes/footer.php';?>

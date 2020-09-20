@@ -1,3 +1,11 @@
+<?php 
+    session_start();
+    include_once '../classes/dbconn.class.php';
+    include_once '../classes/model.class.php';
+    include_once '../classes/view.class.php';
+    include_once '../classes/controller.class.php';
+?>
+
 <!Doctype html>
 <html>
     <head>
@@ -28,10 +36,11 @@
                     </div>
                     <div class="navi">
                         <ul>
-                            <li><a href="index.php"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Candidates</span></a></li>
-                            <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Add Candidate</span></a></li>
-                            <li class="active"><a href="courses.php"><i class="fa fa-certificate" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Courses</span></a></li>
+                            <li id="index_nav"><a href="index.php"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Candidates</span></a></li>
+                            <li id="addcandidate_nav"><a href="addcandidate.php"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Add Candidate</span></a></li>
+                            <li id="courses_nav"><a href="courses.php"><i class="fa fa-certificate" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Courses</span></a></li>
                             <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Training</span></a></li>
+                            <li id="create_nav"><a href="create.php"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Create Admin</span></a></li>
                             <!--<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Calender</span></a></li>-->
                             <!--<li><a href="#"><i class="fa fa-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Users</span></a></li>-->
                             <!--<li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Setting</span></a></li>-->
@@ -63,9 +72,9 @@
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <div class="navbar-content">
-                                                        <span>Admin Admin</span>
+                                                        <span><?php echo $_SESSION["s_firstname"].' '. $_SESSION["s_lastname"];?></span>
                                                         <p class="text-muted small">
-                                                            admin@email.com
+                                                            <?php echo $_SESSION["s_email"];?>
                                                         </p>
                                                         <div class="divider">
                                                         </div>

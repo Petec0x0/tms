@@ -1,6 +1,6 @@
  DB Tables:
     courses
-        ->
+        ->course name
     candidates
         -> name
         -> email

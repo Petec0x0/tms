@@ -3,7 +3,7 @@
     include_once '../classes/dbconn.class.php';
     include_once '../classes/model.class.php';
     include_once '../classes/view.class.php';
-    include_once '../classes/controller.class.php';
+    include_once '../classes/contr.class.php';
 ?>
 
 <!Doctype html>

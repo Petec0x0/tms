@@ -1,5 +1,15 @@
 <?php 
     include_once 'includes/header.php';
+    
+    if(isset($_POST["new_course"]) && isset($_POST["add"])){
+        $new_course = $_POST["new_course"];
+        $contrObj = new Contr();
+        $contrObj->addCourse($new_course);
+        
+        echo '<div class="alert alert-success text-center">
+                <strong>Success!</strong> '.$new_course.' added successfully.
+              </div>';
+    }
 ?>
 
 <main class="container-fluid">
@@ -38,13 +48,13 @@
               </table>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h4><b>Add New Course</b></h4>
-            <div class="form-inline">
+            <form class="form-inline" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         		<input type="text" name="new_course" class="form-control" id="email" placeholder="Enter New Course Name" required>
     
         		<input type="submit" name="add" class="btn btn-primary btn-inline" style="border-radius:12px;" value="ADD+">
-    		</div>
+    		</form>
         </div>
     </div>
     
